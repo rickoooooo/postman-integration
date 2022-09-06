@@ -17,3 +17,4 @@ bin
 *.swp
 *.bak
 build/resources/main
+build/
