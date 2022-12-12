@@ -38,6 +38,34 @@ public class PostmanTableModel extends AbstractTableModel implements TableModelL
 		addTableModelListener(this);
 	}
 	
+	public void addRow(String method, String url) {
+		// Create temp object with new row
+		Object[][] newTableData = new Object[tableRowCount + 1][TABLE_COLUMN_COUNT];
+		
+		// Copy old data to new temp table
+		for(int i = 0; i < tableRowCount; i++) {
+			for(int j = 0; j < TABLE_COLUMN_COUNT; j++)
+				newTableData[i][j] = tableData[i][j];
+		}
+		
+		// Increase row count
+		this.tableRowCount++;
+		
+		// Replace old tableData with new
+		tableData = newTableData;
+		
+		// Create default name
+		String name = String.format("%03d", tableRowCount);
+		
+		// Set new row values
+		for(int j = 0; j < TABLE_COLUMN_COUNT; j++) {
+			setValueAt(name, tableRowCount-1, NAME_COLUMN_INDEX);
+			setValueAt(method, tableRowCount-1, METHOD_COLUMN_INDEX);
+			setValueAt(url, tableRowCount-1, URL_COLUMN_INDEX);
+		}
+		
+	}
+	
 	public Object[][] getTabledata() {
 		return this.tableData;
 	}

@@ -234,6 +234,23 @@ public class PostmanFrame extends JFrame implements MouseMotionListener, MouseLi
 			return System.getProperty("file.encoding");
 		}
 	}
+	
+	public void addRequest(List<IHttpRequestResponse> reqList) {
+		for (int i = 0; i < reqList.size(); i++) {	
+			this.reqCount++;
+			
+			IHttpRequestResponse reqRes = reqList.get(i);
+			IRequestInfo iReqInfo = helpers.analyzeRequest(reqRes.getRequest());
+			String method = iReqInfo.getMethod();
+			String url = getURL(reqRes);
+
+			/* set value on table */
+			this.tableModel.addRow(method, url);
+			
+			// this.tableModel.setValueAt(true, i,
+			// PostmanTableModel.ENABLED_COLUMN_INDEX);
+		}
+	}
 
 	public void setRequest(List<IHttpRequestResponse> reqList, IBurpExtenderCallbacks callbacks) {
 		this.reqList = reqList;

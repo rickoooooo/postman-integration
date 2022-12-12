@@ -3,7 +3,7 @@
 </p>
 
 # Postman Integration
-Postman Integration is an extension to generate **Postman Collection fomat json file**.
+Postman Integration is an extension to generate **Postman Collection fomat json file**. This fork modifies the extension to permit you to add requests to the extension one at a time or in chunks. You no longer have to highlight all requests in one go. This allows you to, for example, right click on each repeater tab individually to add your requests to a single collection.
 
 # Usage
 

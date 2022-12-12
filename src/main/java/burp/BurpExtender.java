@@ -1,5 +1,6 @@
 package burp;
 
+import java.awt.event.WindowAdapter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class BurpExtender implements IBurpExtender, IContextMenuFactory {
 	
 	private IBurpExtenderCallbacks callbacks;
 	
+	private PostmanFrame frame;
+	
 	@Override
 	public void registerExtenderCallbacks(IBurpExtenderCallbacks callbacks) {
 		// set extension name
@@ -47,7 +50,8 @@ public class BurpExtender implements IBurpExtender, IContextMenuFactory {
 	 */
 	public List<JMenuItem> createMenuItems(IContextMenuInvocation invocation) {
 		List<JMenuItem> menuList = new ArrayList<>();
-		JMenuItem item = new JMenuItem("Export as Postman Collection");
+		
+		JMenuItem item = new JMenuItem("Add to Postman Collection");
 
 		item.addActionListener(e -> {
 			IHttpRequestResponse[] requestResponseArray = invocation.getSelectedMessages();
@@ -55,27 +59,35 @@ public class BurpExtender implements IBurpExtender, IContextMenuFactory {
 				@Override
 				public void run() {
 					try {
-
+						List<IHttpRequestResponse> reqList = new ArrayList<>();
 
 						// Generate Request List
-						List<IHttpRequestResponse> reqList = new ArrayList<>();
-						
 						for (IHttpRequestResponse requestResponse : requestResponseArray) {
 							reqList.add(requestResponse);
 						}
 						
-						int posX = 20;	// View X position
-						int posY = 20;	// View Y postion
-						PostmanFrame frame = new PostmanFrame(posX, posY, reqList.size());
+						if (frame == null) {
+							int posX = 20;	// View X position
+							int posY = 20;	// View Y postion
+							frame = new PostmanFrame(posX, posY, reqList.size());
+							
+							frame.addWindowListener(new WindowAdapter(){
+								@Override
+				                public void windowClosing(java.awt.event.WindowEvent e){
+									frame = null;
+				                }
+							});
+							
+							frame.setRequest(reqList, BurpExtender.this.callbacks);
+							// Set Title to Viewer
+							frame.setTitle(FRAME_TITLE);
+							
+							// Show Viewer
+							frame.setVisible(true);
+						} else {
+							frame.addRequest(reqList);
+						}
 
-
-						frame.setRequest(reqList, BurpExtender.this.callbacks);
-						
-						// Set Title to Viewer
-						frame.setTitle(FRAME_TITLE);
-						
-						// Show Viewer
-						frame.setVisible(true);
 
 					} catch (Exception e) {
 						StringWriter sw = new StringWriter();
