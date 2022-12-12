@@ -90,8 +90,8 @@ public class PostmanFrame extends JFrame implements MouseMotionListener, MouseLi
 
 	public PostmanFrame(int posX, int posY, int reqCount) {
 		this.setBounds(posX, posY, 1200, 540);
-		java.net.URL iconUrl = getClass().getClassLoader().getResource("TG-16-16.png");
-		this.setIconImage(new ImageIcon(iconUrl).getImage());
+		//java.net.URL iconUrl = getClass().getClassLoader().getResource("TG-16-16.png");
+		//this.setIconImage(new ImageIcon(iconUrl).getImage());
 		
 		this.reqCount = reqCount;
 		
