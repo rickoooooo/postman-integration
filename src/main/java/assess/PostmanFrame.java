@@ -237,6 +237,7 @@ public class PostmanFrame extends JFrame implements MouseMotionListener, MouseLi
 	
 	public void addRequest(List<IHttpRequestResponse> reqList) {
 		for (int i = 0; i < reqList.size(); i++) {	
+			this.reqList.add(reqList.get(i));
 			this.reqCount++;
 			
 			IHttpRequestResponse reqRes = reqList.get(i);
